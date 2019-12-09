@@ -1,8 +1,9 @@
-package students;
+package utils;
 
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import javax.swing.JOptionPane;
 
 
 /*
@@ -30,8 +31,10 @@ public class databaseConnection {
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
             return conn;
         }catch(Exception ex){
-            System.out.println(ex);
-//            JOptionPane.showMessageDialog(null,ex);
+            JOptionPane.showMessageDialog(null,"Ooops.. It looks like connection was lost(\n\n"
+                    + "1. Be sure you are connected to the internet.\n2. Try login a bit later.\n"
+                    + "3. If problem be the same, contact us via email - \n romanuliashyn@gmail.com");
+            System.exit(0);
             return null;
         }
     }

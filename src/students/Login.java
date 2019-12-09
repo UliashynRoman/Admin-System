@@ -5,6 +5,7 @@
  */
 package students;
 
+import utils.databaseConnection;
 import utils.Query;
 import java.awt.HeadlessException;
 import java.sql.Connection;
@@ -37,7 +38,9 @@ public class Login extends javax.swing.JFrame {
         
         super("Login");
         initComponents();
-        conn = databaseConnection.connection();
+        
+            conn = databaseConnection.connection();
+        
     }
 
     /**
@@ -149,14 +152,16 @@ public class Login extends javax.swing.JFrame {
                        .password(txtPassword.getText()).build();
              
                qr = new Query(user);
-              
-               if(qr.SQL_Login()){
+         
+                 if(qr.SQL_Login()){
                    setVisible(false);
                    Home home_window = new Home();
                    home_window.setVisible(true);
                }else{
                    JOptionPane.showMessageDialog(null,"Password or Email incorrect");
-               }
+               } 
+              
+               
                
            
     }//GEN-LAST:event_btnLogInActionPerformed

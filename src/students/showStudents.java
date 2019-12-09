@@ -5,7 +5,7 @@
  */
 package students;
 
-import current_user.Singleton;
+import utils.CurrentUser;
 import utils.Query;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -338,7 +338,7 @@ public class showStudents extends javax.swing.JFrame {
                     qr_logs.setDb_name("payment_logs");
                     if(qr_logs.Insert_Logs()){
                         qr_logs.update_student(qr_logs.get_SQL_Statement());
-                        JOptionPane.showMessageDialog(null, Singleton.getInstance().getName() + ", you add "
+                        JOptionPane.showMessageDialog(null, CurrentUser.getInstance().getName() + ", you add "
                         + ""+payment.getAmount()+" pln on student card.\nStudent id is "+qr.user.getId()+"\n"
                         + "This information saved on log base");
                            

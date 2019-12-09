@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package current_user;
+package utils;
 
 /**
  *
  * @author roman
  */
-public class Singleton {
+public class CurrentUser {
     
-   private static Singleton current_user;
+   private static CurrentUser current_user;
     private  String name,status,email;
     private static boolean initialized = false;
     
-    private Singleton(){}
+    private CurrentUser(){}
     
     
     
@@ -48,10 +48,10 @@ public class Singleton {
     }
     
     
-    public static Singleton getInstance() {
+    public static CurrentUser getInstance() {
         
         if(initialized) return current_user;
-        current_user = new Singleton();
+        current_user = new CurrentUser();
         current_user.init();
         initialized = true;
         return current_user;

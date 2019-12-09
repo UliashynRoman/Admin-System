@@ -64,26 +64,26 @@ public class Home extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(240, 240, 240));
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\roman\\OneDrive\\Документы\\NetBeansProjects\\Students\\img\\ic_school_24px.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ic_school_24px.png"))); // NOI18N
         jLabel1.setText("Student Registration System");
 
         btnAddStudent.setBackground(new java.awt.Color(36, 42, 55));
         btnAddStudent.setForeground(new java.awt.Color(36, 42, 55));
-        btnAddStudent.setIcon(new javax.swing.ImageIcon("C:\\Users\\roman\\OneDrive\\Документы\\NetBeansProjects\\Students\\img\\ic_account_box_24px.png")); // NOI18N
+        btnAddStudent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ic_account_box_24px.png"))); // NOI18N
         btnAddStudent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddStudentActionPerformed(evt);
             }
         });
 
-        btnStudentOperation.setIcon(new javax.swing.ImageIcon("C:\\Users\\roman\\OneDrive\\Документы\\NetBeansProjects\\Students\\img\\ic_mode_edit_24px.png")); // NOI18N
+        btnStudentOperation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ic_build_24px.png"))); // NOI18N
         btnStudentOperation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnStudentOperationActionPerformed(evt);
             }
         });
 
-        btnStudentList.setIcon(new javax.swing.ImageIcon("C:\\Users\\roman\\OneDrive\\Документы\\NetBeansProjects\\Students\\img\\ic_touch_app_24px.png")); // NOI18N
+        btnStudentList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ic_mode_edit_24px.png"))); // NOI18N
         btnStudentList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnStudentListActionPerformed(evt);
@@ -104,21 +104,21 @@ public class Home extends javax.swing.JFrame {
 
         btnAddAdmin.setBackground(new java.awt.Color(36, 42, 55));
         btnAddAdmin.setForeground(new java.awt.Color(36, 42, 55));
-        btnAddAdmin.setIcon(new javax.swing.ImageIcon("C:\\Users\\roman\\OneDrive\\Документы\\NetBeansProjects\\Students\\img\\ic_account_box_24px.png")); // NOI18N
+        btnAddAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ic_account_box_24px.png"))); // NOI18N
         btnAddAdmin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddAdminActionPerformed(evt);
             }
         });
 
-        btnAdminOperation.setIcon(new javax.swing.ImageIcon("C:\\Users\\roman\\OneDrive\\Документы\\NetBeansProjects\\Students\\img\\ic_mode_edit_24px.png")); // NOI18N
+        btnAdminOperation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ic_build_24px.png"))); // NOI18N
         btnAdminOperation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAdminOperationActionPerformed(evt);
             }
         });
 
-        btnAdminList.setIcon(new javax.swing.ImageIcon("C:\\Users\\roman\\OneDrive\\Документы\\NetBeansProjects\\Students\\img\\ic_touch_app_24px.png")); // NOI18N
+        btnAdminList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ic_mode_edit_24px.png"))); // NOI18N
         btnAdminList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAdminListActionPerformed(evt);
@@ -210,12 +210,11 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jLabel7)
                     .addComponent(jLabel6))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jMenu1.setText("File");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon("C:\\Users\\roman\\OneDrive\\Документы\\NetBeansProjects\\Students\\img\\ic_account_balance_24px.png")); // NOI18N
         jMenuItem1.setText("Home");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -224,7 +223,6 @@ public class Home extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon("C:\\Users\\roman\\OneDrive\\Документы\\NetBeansProjects\\Students\\img\\ic_arrow_back_24px.png")); // NOI18N
         jMenuItem2.setText("Logout");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,7 +236,6 @@ public class Home extends javax.swing.JFrame {
         jMenu2.setText("More");
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem3.setIcon(new javax.swing.ImageIcon("C:\\Users\\roman\\OneDrive\\Документы\\NetBeansProjects\\Students\\img\\ic_list_24px.png")); // NOI18N
         jMenuItem3.setText("About");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

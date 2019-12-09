@@ -10,14 +10,12 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import net.proteanit.sql.DbUtils;
-import current_user.Singleton;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import students.User;
-import students.databaseConnection;
 import students.showAdmins;
 import students.showStudents;
 /**
@@ -81,7 +79,7 @@ public class Query {
             rs = stmt.executeQuery(SQL_Statement);
             
             if(rs.next()){
-                Singleton current_user = Singleton.getInstance();
+                CurrentUser current_user = CurrentUser.getInstance();
                 current_user.setStatus(rs.getString("admin_status"));
                 current_user.setEmail(rs.getString("email"));
                 current_user.setName(rs.getString("name"));
@@ -228,12 +226,12 @@ public class Query {
     
     public boolean Insert_Logs(){
         boolean isError=true;
-        if(Singleton.getInstance().getName().equals("")||Payment.getInstance().getDate().equals("")){
+        if(CurrentUser.getInstance().getName().equals("")||Payment.getInstance().getDate().equals("")){
             isError = false;
         }
         else{
             this.SQL_Statement = "INSERT INTO "+getDb_name()+" (admin_name,transfer_info,date) "
-                    + "VALUES('"+Singleton.getInstance().getName()+"','"
+                    + "VALUES('"+CurrentUser.getInstance().getName()+"','"
                     +"Paid " +Integer.toString(Payment.getInstance().getAmount())+"pln to the account."+"','"+Payment.getInstance().getDate()+"')";
         }
         
@@ -242,7 +240,7 @@ public class Query {
     
     public boolean Insert_Month_Log(){
         if(!Exist_Log()){
-           this.SQL_Statement = "INSERT INTO month_payment (date,counter_name) VALUES ('"+Payment.getInstance().getLogDate()+"','"+Singleton.getInstance().getName()+"')";
+           this.SQL_Statement = "INSERT INTO month_payment (date,counter_name) VALUES ('"+Payment.getInstance().getLogDate()+"','"+CurrentUser.getInstance().getName()+"')";
            System.out.println("Set insert");
            return true;
         }else{

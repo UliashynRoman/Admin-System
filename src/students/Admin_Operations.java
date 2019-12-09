@@ -8,7 +8,7 @@ package students;
 
 import utils.Query;
 import utils.Next_Statement;
-import current_user.Singleton;
+import utils.CurrentUser;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

@@ -6,7 +6,7 @@
 package students;
 
 import utils.Query;
-import current_user.Singleton;
+import utils.CurrentUser;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -20,7 +20,7 @@ public class Error_Handling {
     private static final String EMAIL_PATTERN = 
     "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    Singleton current_user = Singleton.getInstance();
+    CurrentUser current_user = CurrentUser.getInstance();
     private Query qr = new Query();
     
     public Error_Handling(ArrayList<String> err_list){
