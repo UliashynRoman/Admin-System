@@ -85,6 +85,7 @@ public class Home extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(134, 122, 206));
 
+        btnAddStudent.setBackground(null);
         btnAddStudent.setForeground(new java.awt.Color(36, 42, 55));
         btnAddStudent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ic_group_add_24px.png"))); // NOI18N
         btnAddStudent.setBorder(null);
@@ -100,6 +101,7 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        btnStudentOperation.setBackground(null);
         btnStudentOperation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ic_low_priority_24px.png"))); // NOI18N
         btnStudentOperation.setBorder(null);
         btnStudentOperation.setBorderPainted(false);
@@ -114,6 +116,7 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        btnStudentList.setBackground(null);
         btnStudentList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Group 2.png"))); // NOI18N
         btnStudentList.setBorder(null);
         btnStudentList.setBorderPainted(false);
@@ -128,6 +131,7 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        btnAddAdmin.setBackground(null);
         btnAddAdmin.setForeground(new java.awt.Color(36, 42, 55));
         btnAddAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Group 6.png"))); // NOI18N
         btnAddAdmin.setBorder(null);
@@ -143,6 +147,7 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        btnAdminOperation.setBackground(null);
         btnAdminOperation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ic_low_priority_24px.png"))); // NOI18N
         btnAdminOperation.setBorder(null);
         btnAdminOperation.setBorderPainted(false);
@@ -157,6 +162,7 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        btnAdminList.setBackground(null);
         btnAdminList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Group 3.png"))); // NOI18N
         btnAdminList.setBorder(null);
         btnAdminList.setBorderPainted(false);
