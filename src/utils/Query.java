@@ -15,9 +15,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import students.User;
-import students.showAdmins;
-import students.showStudents;
+import forms.Logs;
+import forms.showAdmins;
+import forms.showStudents;
 /**
  *
  * @author roman
@@ -32,6 +32,7 @@ public class Query {
     
     showStudents show_window_stud;
     showAdmins show_window_adm;
+    Logs show_logs;
 
     private String db_name;
   
@@ -55,13 +56,17 @@ public class Query {
         conn = databaseConnection.connection();
         this.show_window_adm = window;
     }
+    public Query(Logs window){
+        conn = databaseConnection.connection();
+        this.show_logs = window;
+    }
     
     
     
     
     /////METHODS
     ///Update Students
-    public void update_student(String sql_command){
+    public void update_query(String sql_command){
         try{
            stmt = conn.createStatement();
            stmt.executeUpdate(sql_command);
@@ -75,7 +80,7 @@ public class Query {
     public boolean SQL_Login(){
         try{
             stmt = conn.createStatement();
-            this.SQL_Statement = "SELECT id,name,email,admin_status FROM admin WHERE email='"+user.getEmail()+"' && password = '"+user.getPassword()+"'";
+            this.SQL_Statement = "SELECT id,name,email,password,admin_status FROM admin WHERE email='"+user.getEmail()+"' && password = '"+user.getPassword()+"'";
             rs = stmt.executeQuery(SQL_Statement);
             
             if(rs.next()){
@@ -83,6 +88,7 @@ public class Query {
                 current_user.setStatus(rs.getString("admin_status"));
                 current_user.setEmail(rs.getString("email"));
                 current_user.setName(rs.getString("name"));
+                current_user.setPassword(rs.getString("password"));
                 return true;
             }
             
@@ -105,6 +111,16 @@ public class Query {
                     rs = stmt.executeQuery("SELECT name,email,admin_status FROM "+getDb_name());
                     show_window_adm.tableAdmins.setModel(DbUtils.resultSetToTableModel(rs));
                 break;
+                case "month_payment":
+                    rs = stmt.executeQuery("SELECT counter_name,date FROM "+getDb_name());
+                    show_logs.tbMonth.setModel(DbUtils.resultSetToTableModel(rs));
+                    
+                break;
+                case "payment_logs":
+                    rs = stmt.executeQuery("SELECT admin_name,transfer_info,date FROM "+getDb_name());
+                    show_logs.tbPayment.setModel(DbUtils.resultSetToTableModel(rs));
+                break;
+
                 default:
                     System.out.println("err");
             }
@@ -188,10 +204,7 @@ public class Query {
     }
     
     
-    
-    
-    
-    
+
 
     //INSERT to BD. All fields are required
     public boolean Insert_Student(){
@@ -224,7 +237,7 @@ public class Query {
         return isError;
 }
     
-    public boolean Insert_Logs(){
+    public boolean Insert_Logs(String ID){
         boolean isError=true;
         if(CurrentUser.getInstance().getName().equals("")||Payment.getInstance().getDate().equals("")){
             isError = false;
@@ -232,7 +245,7 @@ public class Query {
         else{
             this.SQL_Statement = "INSERT INTO "+getDb_name()+" (admin_name,transfer_info,date) "
                     + "VALUES('"+CurrentUser.getInstance().getName()+"','"
-                    +"Paid " +Integer.toString(Payment.getInstance().getAmount())+"pln to the account."+"','"+Payment.getInstance().getDate()+"')";
+                    +Integer.toString(Payment.getInstance().getAmount())+" pln credited to the student with ID: "+ID+"','"+Payment.getInstance().getDate()+"')";
         }
         
         return isError;
@@ -362,7 +375,9 @@ public class Query {
         return true;
     }
     
-   
+   public void Update_Password(){
+       this.SQL_Statement = "UPDATE "+getDb_name()+ " SET password = '"+ CurrentUser.getInstance().getPassword()+"' WHERE email = '"+CurrentUser.getInstance().getEmail()+"'";
+   }
     
     public ArrayList<String> Select_All_ID(){
         

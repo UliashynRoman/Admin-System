@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package students;
+package forms;
 
 import utils.Query;
 import utils.CurrentUser;
@@ -257,6 +257,16 @@ public class Error_Handling {
         }
         return stm;
         
+    }
+    public boolean EqualPasswords(String prev,JTextField next){
+        boolean stm;
+        if(prev.equals(next.getText())){
+            stm = true;
+        }else{
+            err_list.add("Current password is incorrect\n");
+            stm = false;
+        }
+        return stm;
     }
     
     private boolean ValidLenght(JTextField s,String ln){

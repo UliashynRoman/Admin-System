@@ -12,10 +12,11 @@ package utils;
 public class CurrentUser {
     
    private static CurrentUser current_user;
-    private  String name,status,email;
+    private  String name,status,email,password;
     private static boolean initialized = false;
     
     private CurrentUser(){}
+    
     
     
     
@@ -26,6 +27,9 @@ public class CurrentUser {
     public void setEmail(String s){
         this.email = s;
     }
+    public void setPassword(String name) {
+        this.password = name;
+    }
     
     public void setStatus(String s){
         this.status = s;
@@ -34,7 +38,9 @@ public class CurrentUser {
     public String getEmail(){
         return email;
     }
-    
+    public String getPassword(){
+        return password;
+    }
     public  String getStatus(){
         return status;
     }
@@ -42,9 +48,11 @@ public class CurrentUser {
     public  String getName(){
         return name;
     }
+    
     public void init(){
         getStatus();
         getEmail();
+        getPassword();
     }
     
     

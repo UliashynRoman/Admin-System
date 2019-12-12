@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package students;
+package forms;
 
 import utils.CurrentUser;
 import utils.Query;
@@ -91,14 +91,19 @@ public class showStudents extends javax.swing.JFrame {
         btnSubmit = new javax.swing.JButton();
         txtDebt = new javax.swing.JTextField();
         lbShowDate = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
+        menuItemAbout2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         tableStudent.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -113,8 +118,12 @@ public class showStudents extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tableStudent);
 
+        lbMonth.setFont(new java.awt.Font("Sitka Text", 0, 13)); // NOI18N
         lbMonth.setText("Monthly payment");
 
+        btnMakewithdraw.setBackground(new java.awt.Color(134, 122, 206));
+        btnMakewithdraw.setFont(new java.awt.Font("Sitka Text", 0, 11)); // NOI18N
+        btnMakewithdraw.setForeground(new java.awt.Color(255, 255, 255));
         btnMakewithdraw.setText("Take credits");
         btnMakewithdraw.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,6 +131,9 @@ public class showStudents extends javax.swing.JFrame {
             }
         });
 
+        btnBack.setBackground(new java.awt.Color(51, 50, 56));
+        btnBack.setFont(new java.awt.Font("Sitka Text", 0, 11)); // NOI18N
+        btnBack.setForeground(new java.awt.Color(255, 255, 255));
         btnBack.setText("Back");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,14 +141,25 @@ public class showStudents extends javax.swing.JFrame {
             }
         });
 
+        lbPayments.setFont(new java.awt.Font("Sitka Text", 0, 13)); // NOI18N
         lbPayments.setText("Insert Payment");
 
+        txtID.setBorder(null);
+
+        lbID.setFont(new java.awt.Font("Sitka Text", 0, 11)); // NOI18N
         lbID.setText("Student ID");
 
+        lbAmount.setFont(new java.awt.Font("Sitka Text", 0, 11)); // NOI18N
         lbAmount.setText("Amount");
 
+        txtAmount.setBorder(null);
+
+        lbToday.setFont(new java.awt.Font("Sitka Text", 0, 11)); // NOI18N
         lbToday.setText("Today is");
 
+        btnSubmit.setBackground(new java.awt.Color(134, 122, 206));
+        btnSubmit.setFont(new java.awt.Font("Sitka Text", 0, 11)); // NOI18N
+        btnSubmit.setForeground(new java.awt.Color(255, 255, 255));
         btnSubmit.setText("Submit");
         btnSubmit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,11 +169,17 @@ public class showStudents extends javax.swing.JFrame {
 
         txtDebt.setText("650");
 
+        jSeparator1.setBackground(new java.awt.Color(51, 50, 56));
+        jSeparator1.setForeground(new java.awt.Color(51, 50, 56));
+
+        jSeparator2.setBackground(new java.awt.Color(51, 50, 56));
+        jSeparator2.setForeground(new java.awt.Color(51, 50, 56));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 767, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,26 +192,28 @@ public class showStudents extends javax.swing.JFrame {
                             .addComponent(lbAmount)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnSubmit))))
-                    .addComponent(lbPayments))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(lbPayments)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
-                        .addComponent(lbDate, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lbToday, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbShowDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lbMonth)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtDebt, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(lbToday, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(lbDate, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lbShowDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(lbMonth)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtDebt, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBack)
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnMakewithdraw, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -197,33 +228,36 @@ public class showStudents extends javax.swing.JFrame {
                     .addComponent(lbMonth)
                     .addComponent(txtDebt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lbToday)
+                                .addComponent(lbShowDate))
+                            .addComponent(lbDate, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnMakewithdraw, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lbID)
-                            .addComponent(lbAmount)
-                            .addComponent(lbDate))
+                            .addComponent(lbAmount))
                         .addGap(6, 6, 6)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtID)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(22, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lbToday)
-                            .addComponent(lbShowDate))
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnMakewithdraw, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(22, 22, 22))))
+                            .addComponent(txtID, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                            .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(22, Short.MAX_VALUE))))
         );
 
         jMenu1.setText("File");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon("C:\\Users\\roman\\OneDrive\\Документы\\NetBeansProjects\\Students\\img\\ic_account_balance_24px.png")); // NOI18N
         jMenuItem1.setText("Home");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -232,7 +266,6 @@ public class showStudents extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon("C:\\Users\\roman\\OneDrive\\Документы\\NetBeansProjects\\Students\\img\\ic_arrow_back_24px.png")); // NOI18N
         jMenuItem2.setText("Logout");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,14 +279,21 @@ public class showStudents extends javax.swing.JFrame {
         jMenu2.setText("More");
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem3.setIcon(new javax.swing.ImageIcon("C:\\Users\\roman\\OneDrive\\Документы\\NetBeansProjects\\Students\\img\\ic_list_24px.png")); // NOI18N
-        jMenuItem3.setText("About");
+        jMenuItem3.setText("Guide");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
             }
         });
         jMenu2.add(jMenuItem3);
+
+        menuItemAbout2.setText("About");
+        menuItemAbout2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemAbout2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menuItemAbout2);
 
         jMenuBar1.add(jMenu2);
 
@@ -271,6 +311,7 @@ public class showStudents extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -287,7 +328,7 @@ public class showStudents extends javax.swing.JFrame {
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         setVisible(false);
-        About about_form = new About();
+        GuidePage about_form = new GuidePage();
         about_form.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
@@ -303,10 +344,10 @@ public class showStudents extends javax.swing.JFrame {
             err.Print_Errors();
         }{
             if(qr.Insert_Month_Log()){
-                qr.update_student(qr.GetSQL_Statement());
+                qr.update_query(qr.GetSQL_Statement());
                 Payment.getInstance().setAmount(txtDebt.getText());
                 if(qr.Update_Credit_Month_Debt()){
-                    qr.update_student(qr.GetSQL_Statement());
+                    qr.update_query(qr.GetSQL_Statement());
                     
                     qr.Select_All_FromDB();
                 }
@@ -332,12 +373,12 @@ public class showStudents extends javax.swing.JFrame {
             
             if (qr.GetById(txtID.getText())){
                     qr.Update_Credit();
-                    qr.update_student(qr.GetSQL_Statement());
+                    qr.update_query(qr.GetSQL_Statement());
                     Clear_Fields();
                     qr.Select_All_FromDB();
                     qr_logs.setDb_name("payment_logs");
-                    if(qr_logs.Insert_Logs()){
-                        qr_logs.update_student(qr_logs.get_SQL_Statement());
+                    if(qr_logs.Insert_Logs(Integer.toString(qr.user.getId()))){
+                        qr_logs.update_query(qr_logs.get_SQL_Statement());
                         JOptionPane.showMessageDialog(null, CurrentUser.getInstance().getName() + ", you add "
                         + ""+payment.getAmount()+" pln on student card.\nStudent id is "+qr.user.getId()+"\n"
                         + "This information saved on log base");
@@ -354,6 +395,11 @@ public class showStudents extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_btnSubmitActionPerformed
+
+    private void menuItemAbout2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemAbout2ActionPerformed
+        About about_form = new About();
+        about_form.setVisible(true);
+    }//GEN-LAST:event_menuItemAbout2ActionPerformed
 
     
     private boolean Catch_Err(){
@@ -421,6 +467,8 @@ public class showStudents extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lbAmount;
     private javax.swing.JLabel lbDate;
     private javax.swing.JLabel lbID;
@@ -428,6 +476,7 @@ public class showStudents extends javax.swing.JFrame {
     private javax.swing.JLabel lbPayments;
     private javax.swing.JLabel lbShowDate;
     private javax.swing.JLabel lbToday;
+    private javax.swing.JMenuItem menuItemAbout2;
     public javax.swing.JTable tableStudent;
     private javax.swing.JTextField txtAmount;
     private javax.swing.JTextField txtDebt;
