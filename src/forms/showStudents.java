@@ -46,6 +46,7 @@ public class showStudents extends javax.swing.JFrame {
         initComponents();
         qr.setDb_name("student");
         qr.Select_All_FromDB();
+        lbShowDate.setText(dateFormat.format(date));
         if(!err.isMainHere() && !err.isCounter()){
                 txtID.setVisible(false);
                 txtAmount.setVisible(false);
@@ -57,8 +58,12 @@ public class showStudents extends javax.swing.JFrame {
                 lbPayments.setVisible(false);
                 lbToday.setVisible(false);
                 lbAmount.setVisible(false);
+                txtDebt.setVisible(false);
+                jSeparator1.setVisible(false);
+                jSeparator2.setVisible(false);
+                lbShowDate.setVisible(false);
         }
-        lbShowDate.setText(dateFormat.format(date));
+        
         if(!err.isMainHere()){
             txtDebt.setEditable(false);
         }
@@ -417,7 +422,7 @@ public class showStudents extends javax.swing.JFrame {
         //Clear fields
         txtID.setText("");
         txtAmount.setText("");
-        txtDebt.setText("");
+//        txtDebt.setText("");
     }
     
     
