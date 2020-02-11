@@ -20,6 +20,9 @@ import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 import utils.Next_Statement;
 import utils.Payment;
+import validators.IValidation;
+import validators.ValidationType;
+import validators.ValidatorsFactory;
 
 /**
  *
@@ -62,6 +65,7 @@ public class showStudents extends javax.swing.JFrame {
                 jSeparator1.setVisible(false);
                 jSeparator2.setVisible(false);
                 lbShowDate.setVisible(false);
+                btnFilter.setVisible(false);
         }
         
         if(!err.isMainHere()){
@@ -98,6 +102,7 @@ public class showStudents extends javax.swing.JFrame {
         lbShowDate = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
+        btnFilter = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -180,6 +185,16 @@ public class showStudents extends javax.swing.JFrame {
         jSeparator2.setBackground(new java.awt.Color(51, 50, 56));
         jSeparator2.setForeground(new java.awt.Color(51, 50, 56));
 
+        btnFilter.setBackground(new java.awt.Color(51, 50, 56));
+        btnFilter.setFont(new java.awt.Font("Sitka Text", 0, 11)); // NOI18N
+        btnFilter.setForeground(new java.awt.Color(255, 255, 255));
+        btnFilter.setText("Payment Filter");
+        btnFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFilterActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -198,13 +213,15 @@ public class showStudents extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(btnFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(lbPayments)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(jPanel1Layout.createSequentialGroup()
@@ -244,7 +261,8 @@ public class showStudents extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnMakewithdraw, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(25, 25, 25))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -345,9 +363,10 @@ public class showStudents extends javax.swing.JFrame {
 
     private void btnMakewithdrawActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMakewithdrawActionPerformed
         
-        if(err.Valid_Debt(txtDebt)){
-            err.Print_Errors();
-        }{
+        try {
+            IValidation debtValidator = ValidatorsFactory.make(ValidationType.DEBT_VALIDATOR);
+            debtValidator.Validate(txtDebt.getText());
+            
             if(qr.Insert_Month_Log()){
                 qr.update_query(qr.GetSQL_Statement());
                 Payment.getInstance().setAmount(txtDebt.getText());
@@ -360,7 +379,12 @@ public class showStudents extends javax.swing.JFrame {
                 err_list.add("Withdrawal has already been completed or is it system error.\n");
                 err.Print_Errors();
             }
+        }catch(IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
+            
+            
+        
         
         
         
@@ -369,34 +393,32 @@ public class showStudents extends javax.swing.JFrame {
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
         
-        if(Catch_Err()){
-            err.Print_Errors();
-        }else{
+        try{
+            Catch_Err();
+            
             Payment payment = Payment.getInstance();
             payment.setAmount(txtAmount.getText());
             payment.init();
             
             if (qr.GetById(txtID.getText())){
-                    qr.Update_Credit();
-                    qr.update_query(qr.GetSQL_Statement());
-                    Clear_Fields();
-                    qr.Select_All_FromDB();
-                    qr_logs.setDb_name("payment_logs");
-                    if(qr_logs.Insert_Logs(Integer.toString(qr.user.getId()))){
-                        qr_logs.update_query(qr_logs.get_SQL_Statement());
-                        JOptionPane.showMessageDialog(null, CurrentUser.getInstance().getName() + ", you add "
-                        + ""+payment.getAmount()+" pln on student card.\nStudent id is "+qr.user.getId()+"\n"
-                        + "This information saved on log base");
-                           
-                    }
-                    
-
+                qr.Update_Credit();
+                qr.update_query(qr.GetSQL_Statement());
+                Clear_Fields();
+                qr.Select_All_FromDB();
+                qr_logs.setDb_name("payment_logs");
+                if(qr_logs.Insert_Logs(qr.user.getId())){
+                    qr_logs.update_query(qr_logs.get_SQL_Statement());
+                    JOptionPane.showMessageDialog(null, CurrentUser.getInstance().getName() + ", you add "
+                    + ""+payment.getAmount()+" pln on student card.\nStudent id is "+qr.user.getId()+"\n"
+                    + "This information saved on log base");
+                }
             }else {
                 Clear_Fields();
                 JOptionPane.showMessageDialog(null, "User with entered ID is not exist");
             }
             System.out.println(payment.getAmount() + ", "+payment.getDate());
-            
+        }catch(IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         
     }//GEN-LAST:event_btnSubmitActionPerformed
@@ -406,18 +428,41 @@ public class showStudents extends javax.swing.JFrame {
         about_form.setVisible(true);
     }//GEN-LAST:event_menuItemAbout2ActionPerformed
 
+    private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
+        setVisible(false);
+        StudentPayments student_logs = new StudentPayments();
+        student_logs.setVisible(true);
+    }//GEN-LAST:event_btnFilterActionPerformed
+
     
-    private boolean Catch_Err(){
-        if(err.Valid_ID(txtID));
-        if(err.Valid_Amount(txtAmount));
-            
+       //Catch Err
+     private void Catch_Err(){
+        StringBuilder errorMessage = new StringBuilder();
         
-        if(err_list.size() > 0){
-            return true;
+        //ID
+        try {
+            IValidation idValidation = ValidatorsFactory.make(ValidationType.ID_VALIDATOR);
+            idValidation.Validate(txtID.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
         }
-        return false;
+        
+        //Amount
+        try {
+            IValidation amtValidation = ValidatorsFactory.make(ValidationType.AMOUNT_VALIDATOR);
+            amtValidation.Validate(txtAmount.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
+        }
+        
+        
+        
+        if (errorMessage.length() != 0) {
+            throw new IllegalArgumentException(errorMessage.toString());
+        }
+        
     }
-    
+     
     private void Clear_Fields(){
         //Clear fields
         txtID.setText("");
@@ -462,6 +507,7 @@ public class showStudents extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnFilter;
     private javax.swing.JButton btnMakewithdraw;
     private javax.swing.JButton btnSubmit;
     private javax.swing.JMenu jMenu1;

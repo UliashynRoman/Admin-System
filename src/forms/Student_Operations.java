@@ -19,6 +19,10 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
+import utils.User;
+import validators.IValidation;
+import validators.ValidationType;
+import validators.ValidatorsFactory;
 
 /**
  *
@@ -471,21 +475,31 @@ public class Student_Operations extends javax.swing.JFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         
-        SetList();
-        if(err.Valid_ID(txtID)){
-            err.Print_Errors();
-        }else{
+        //ID
+        try {
+            IValidation nameValidator = ValidatorsFactory.make(ValidationType.ID_VALIDATOR);
+            nameValidator.Validate(txtID.getText());
+            
+            
             if (qry.GetById(txtID.getText())) {
-                txtName.setText(qry.user.getName());
-                txtCity.setText(qry.user.getCity());
-                txtLocalEmail.setText(qry.user.getEmail());
-                txtClass.setText(Integer.toString(qry.user.getClas()));
-                txtPhone.setText(qry.user.getPhone());
+            txtName.setText(qry.user.getName());
+            txtCity.setText(qry.user.getCity());
+            txtLocalEmail.setText(qry.user.getEmail());
+            txtClass.setText(qry.user.getClas());
+            txtPhone.setText(qry.user.getPhone());
             } else {
                 Clear_Fields();
                 JOptionPane.showMessageDialog(null, "User with entered ID is not exist");
             }
+        }catch(IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
+        
+        SetList();
+    
+
+        
+        
         
 
     }//GEN-LAST:event_btnSearchActionPerformed
@@ -498,10 +512,9 @@ public class Student_Operations extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         
-        
-        if(Catch_Err()){
-            err.Print_Errors();
-        }else{
+        try{
+            Catch_Err();
+            
             //Setter
             nxt.setId(txtID.getText());
             nxt.setName(txtName.getText());
@@ -517,9 +530,11 @@ public class Student_Operations extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Data sucessfully updated");
 
             } else {
-                txtID.setText(Integer.toString(qry.user.getId()));
+                txtID.setText(qry.user.getId());
                 JOptionPane.showMessageDialog(null, "You can`t change the ID");
             }
+        }catch(IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         SetList();
 
@@ -527,14 +542,19 @@ public class Student_Operations extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         
-        if(err.Valid_Field(txtID)){
-            err_list.add("ID field is empty");
-            err.Print_Errors();
-        }else{
+        //ID
+        try {
+            IValidation idValidator = ValidatorsFactory.make(ValidationType.ID_VALIDATOR);
+            idValidator.Validate(txtID.getText());
+            
             Clear_Fields();
             JOptionPane.showMessageDialog(null, "User with ID:"+qry.user.getId()+" deleted");
             qry.update_query(qry.SQL_Delete_Student());
+            
+        }catch(IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
+        
         SetList();
 
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -564,27 +584,73 @@ public class Student_Operations extends javax.swing.JFrame {
     }
     
     //Catch Err
-    private boolean Catch_Err(){
-        if(err.Valid_Field(txtID));
-        if(err.Valid_Name(txtName));
-        if(err.Valid_Email(txtLocalEmail))
-        if(err.Valid_City(txtCity));
-        if(err.Valid_Phone(txtPhone));
-        if(err.Valid_Class(txtClass));
-        
-        
-        if(err_list.size() > 0){
-            return true;
+     private void Catch_Err(){
+        StringBuilder errorMessage = new StringBuilder();
+
+        //ID
+        try {
+            IValidation idValidation = ValidatorsFactory.make(ValidationType.ID_VALIDATOR);
+            idValidation.Validate(txtID.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
         }
-        return false;
+        
+        //Name
+        try {
+            IValidation nameValidation = ValidatorsFactory.make(ValidationType.NAME_VALIDATOR);
+            nameValidation.Validate(txtName.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
+        }
+        
+        //Email
+        try {
+            IValidation emailValidation = ValidatorsFactory.make(ValidationType.EMAIL_VALIDATOR);
+            emailValidation.Validate(txtLocalEmail.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
+        }
+        
+        //Phone
+        try {
+           IValidation phoneValidation = ValidatorsFactory.make(ValidationType.PHONE_VALIDATOR);
+            phoneValidation.Validate(txtPhone.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
+        }
+        
+        //City
+        try {
+            IValidation cityValidation = ValidatorsFactory.make(ValidationType.CITY_VALIDATOR);
+            cityValidation.Validate(txtCity.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
+        }
+        
+        //Class
+        try {
+            IValidation classValidation= ValidatorsFactory.make(ValidationType.CLASS_VALIDATOR);
+            classValidation.Validate(txtClass.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
+        }
+        
+        if (errorMessage.length() != 0) {
+            throw new IllegalArgumentException(errorMessage.toString());
+        }
+        
     }
+    
+    
+    
+    
     
     
     private void SetList(){
         dm.removeAllElements();
         for(int i =0; i < qry.Select_All_ID().size();++i){
             dm.addElement(qry.Select_All_ID().get(i));
-            System.out.println(dm.get(i));
+//              System.out.println(dm.get(i));
         }
         idList.setModel(dm);
     }

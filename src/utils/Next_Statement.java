@@ -15,30 +15,28 @@ public class Next_Statement {
         
     }
     //Inserting values
-    private int id;
+    private String id;
     private String name;
     private String email;
     private String phone;
     private String city;
-    private int clas;
+    private String clas;
     private String status;
-    private int credit;
+    private String credit;
 
     /**
      * @return the id
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
-        this.id = id;
-    }
+    
     public void setId(String id) {
-        this.id = Integer.parseInt(id);
+        this.id = id;
     }
 
     /**
@@ -100,18 +98,16 @@ public class Next_Statement {
     /**
      * @return the clas
      */
-    public int getClas() {
+    public String getClas() {
         return clas;
     }
 
     /**
      * @param clas the clas to set
      */
-    public void setClas(int clas) {
-        this.clas = clas;
-    }
+   
     public void setClas(String clas) {
-        this.clas = Integer.parseInt(clas);
+        this.clas = clas;
     }
 
     /**
@@ -135,11 +131,9 @@ public class Next_Statement {
     /**
      * @param credit the credit to set
      */
-    public void setCredit(int credit) {
-        this.credit = credit;
-    }
+    
     
     public void setCredit(String credit) {
-        this.credit = Integer.parseInt(credit);
+        this.credit = credit;
     }
 }

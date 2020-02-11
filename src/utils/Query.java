@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import forms.Logs;
+import forms.StudentPayments;
 import forms.showAdmins;
 import forms.showStudents;
 /**
@@ -33,6 +34,7 @@ public class Query {
     showStudents show_window_stud;
     showAdmins show_window_adm;
     Logs show_logs;
+    StudentPayments student_logs;
 
     private String db_name;
   
@@ -59,6 +61,11 @@ public class Query {
     public Query(Logs window){
         conn = databaseConnection.connection();
         this.show_logs = window;
+    }
+    
+    public Query(StudentPayments window){
+        conn = databaseConnection.connection();
+        this.student_logs = window;
     }
     
     
@@ -139,18 +146,17 @@ public class Query {
                         try{
                         stmt = conn.createStatement();            
                         rs = stmt.executeQuery(SQL_Statement);
-
+                                
                         if(rs.next()){
                             user = new User.UserBuilder()
                                     .id(id)
                                     .name(rs.getString("name"))
                                     .email(rs.getString("email"))
                                     .city(rs.getString("city"))
-                                    .clas(rs.getInt("class"))
-                                    .credit(rs.getInt("credit"))
+                                    .clas(Integer.toString(rs.getInt("class")))
+                                    .credit(Integer.toString(rs.getInt("credit")))
                                     .phone(rs.getString("phone"))
                                     .build();
-
                             return true;
                         }
                      }catch(Exception e){
@@ -185,6 +191,8 @@ public class Query {
         return false;
     }
     
+ 
+    
     
     public boolean emailExist(String email){
         System.out.println("Check point "+ getDb_name());
@@ -209,7 +217,7 @@ public class Query {
     //INSERT to BD. All fields are required
     public boolean Insert_Student(){
         boolean isError=false;
-        if(user.getName().equals("")||user.getCity().equals("")||user.getPhone().equals("")||user.getEmail().equals("")||user.getClas()<=0){
+        if(user.getName().equals("")||user.getCity().equals("")||user.getPhone().equals("")||user.getEmail().equals("")){
             isError = true;
         }
         else{
@@ -306,13 +314,14 @@ public class Query {
     
     public boolean SetSQL_Update(Next_Statement nxt){
         
-        
-        if(GetById(Integer.toString(nxt.getId()))){
-           this.SQL_Statement = "UPDATE "+getDb_name()+" SET id = '"+user.getId()+"'";
-        
-            if(!Prev_Next(user.getId(),nxt.getId())){
+        if(!Prev_Next(user.getId(),nxt.getId())){
                 return false;
             }
+
+        if(GetById(nxt.getId())){
+           this.SQL_Statement = "UPDATE "+getDb_name()+" SET id = '"+user.getId()+"'";
+        
+            
 
             if(!Prev_Next(user.getName(),nxt.getName())){
                 this.SQL_Statement += ", name = '"+nxt.getName()+"'";
@@ -342,7 +351,7 @@ public class Query {
                         
                     break;
             }
-
+              
             this.SQL_Statement +=" WHERE id ='"+user.getId()+"'";
         }
                 
@@ -371,7 +380,6 @@ public class Query {
        
         this.SQL_Statement = "UPDATE "+getDb_name()+" SET "
                 + "credit = credit - "+Integer.toString(Payment.getInstance().getAmount())+" ";
-        System.out.println();
         return true;
     }
     
@@ -391,11 +399,58 @@ public class Query {
                this.SQL_Statement =  "SELECT id,name FROM "+getDb_name();
                executeQuery(list);
              break;
+            case "payment_logs":
+               this.SQL_Statement =  "SELECT * FROM "+getDb_name();
+               executeQuery(list);
+             break;
             default:
                 System.out.println("Err");
         }
-        
         return list;
+    }
+    
+    public void SQL_JOIN(User user){
+        try{
+            stmt = conn.createStatement();
+            System.out.println(user.getId());
+            this.SQL_Statement = "SELECT transfer_info,date FROM "+getDb_name()+" WHERE SUBSTRING(transfer_info, LENGTH(transfer_info)-1,2) = '"+user.getId()+"'";
+            
+            rs = stmt.executeQuery(SQL_Statement);
+            student_logs.tbPayment.setModel(DbUtils.resultSetToTableModel(rs));
+            while(rs.next()){
+                System.out.println(rs.getString(1));
+            }
+            
+        }catch(Exception e){
+                System.out.println(e);
+        }
+        System.out.println(user);
+    }
+    
+    
+    public ArrayList<String> Select_All_ADMIN_ID(){
+        
+        ArrayList<String> list = new ArrayList<>();
+       
+        this.SQL_Statement =  "SELECT id,name FROM admin";
+        executeQueryAdmin(list);
+       
+        System.out.println(list);
+        return list;
+    }
+    
+    
+    private void executeQueryAdmin(ArrayList<String> list){
+        try{
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(SQL_Statement);
+            while(rs.next()){
+                list.add(rs.getString("name"));
+            }
+
+        }catch(Exception e){
+            System.out.println(e);
+        }
     }
     
     
@@ -405,40 +460,32 @@ public class Query {
             rs = stmt.executeQuery(SQL_Statement);
             while(rs.next()){
                 list.add(rs.getString("id")+" - "+ rs.getString("name"));
+                user = new User.UserBuilder()
+                                .id(rs.getString("id"))
+                                .name(rs.getString("name"))
+                                .build();
             }
 
-            System.out.println(list);
         }catch(Exception e){
             System.out.println(e);
         }
     }
     
     
+   
+    
     private boolean Prev_Next(String prev,String next){
         boolean IsTrue;
         if(prev.equals(next)){
-            System.out.println(prev +"=="+next);
+//            System.out.println(prev +"=="+next);
             IsTrue = true;
         }else{
-            System.out.println(prev +"=="+next);
+//            System.out.println(prev +"=="+next);
             IsTrue = false;
         }
-        System.out.println(IsTrue);
         return IsTrue;
     }
-//    @Override with int
-    private boolean Prev_Next(int prev,int next){
-        boolean IsTrue;
-        if(prev==next){
-            System.out.println(prev +"=="+next);
-            IsTrue = true;
-        }else{
-            System.out.println(prev +"=="+next);
-            IsTrue = false;
-        }
-        System.out.println(IsTrue);
-        return IsTrue;
-    }
+
 
     /**
      * @return the db_name

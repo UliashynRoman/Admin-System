@@ -224,9 +224,6 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="btnAddStudent">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color type="null"/>
-            </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="37" green="2a" red="24" type="rgb"/>
             </Property>
@@ -255,9 +252,6 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnStudentOperation">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color type="null"/>
-            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/ic_low_priority_24px.png"/>
             </Property>
@@ -283,9 +277,6 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnStudentList">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color type="null"/>
-            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Group 2.png"/>
             </Property>
@@ -311,9 +302,6 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnAddAdmin">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color type="null"/>
-            </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="37" green="2a" red="24" type="rgb"/>
             </Property>
@@ -342,9 +330,6 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnAdminOperation">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color type="null"/>
-            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/ic_low_priority_24px.png"/>
             </Property>
@@ -370,9 +355,6 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnAdminList">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color type="null"/>
-            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Group 3.png"/>
             </Property>

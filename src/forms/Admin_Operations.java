@@ -20,6 +20,10 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
+import utils.User;
+import validators.IValidation;
+import validators.ValidationType;
+import validators.ValidatorsFactory;
 
 /**
  *
@@ -454,11 +458,9 @@ public class Admin_Operations extends javax.swing.JFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
 
-        PrintList();
-        if(err.Valid_Field(txtID)){
-            err_list.add("ID Field Empty or not valid\n");
-            err.Print_Errors();
-        }else{
+        try {
+            IValidation nameValidator = ValidatorsFactory.make(ValidationType.ID_VALIDATOR);
+            nameValidator.Validate(txtID.getText());
             
             if (qry.GetById(txtID.getText())) {
                 txtName.setText(qry.user.getName());
@@ -470,9 +472,9 @@ public class Admin_Operations extends javax.swing.JFrame {
                 Clear_Fields();
                 JOptionPane.showMessageDialog(null, "User with entered ID is not exist");
             }
+        }catch(IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        
-
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -483,44 +485,44 @@ public class Admin_Operations extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         
-        if(Catch_Err()){
-            err.Print_Errors();
-        }
-        else{
+        try{
+            Catch_Err();
+            
             //Setter
             nxt.setId(txtID.getText());
             nxt.setName(txtName.getText());
             nxt.setEmail(txtLocalEmail.getText());
             nxt.setStatus((String) adminStatus.getSelectedItem());
-           
             
             if(!err.Check_Permission(nxt.getStatus().toLowerCase())){
                 err.Print_Errors();
             }else{
-                //execute_insert
                 if (qry.SetSQL_Update(nxt)) {
                     qry.update_query(qry.GetSQL_Statement());
                     Clear_Fields();
                     JOptionPane.showMessageDialog(null, "Data sucessfully updated");
 
                 } else {
-                    txtID.setText(Integer.toString(qry.user.getId()));
+                    txtID.setText(qry.user.getId());
                     JOptionPane.showMessageDialog(null, "You can`t change the ID");
                 }
             }
+            PrintList();
             
-            
+        }catch(IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        System.out.println(err_list);
-        PrintList();
+        
+            
 
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         
-        if(err.Valid_Field(txtID)){
-            JOptionPane.showMessageDialog(null, "ID Field Empty");
-        }else{
+        try{
+            IValidation nameValidator = ValidatorsFactory.make(ValidationType.ID_VALIDATOR);
+            nameValidator.Validate(txtID.getText());
+            
             if(!err.isMainHere()){
                 err.Print_Errors();
             }else{
@@ -528,6 +530,8 @@ public class Admin_Operations extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "User with ID:"+qry.user.getId()+" deleted");
                 qry.update_query(qry.SQL_Delete_Student());
             }
+        }catch(IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         PrintList();
 
@@ -558,18 +562,39 @@ public class Admin_Operations extends javax.swing.JFrame {
         adminStatus.setSelectedIndex(0);
     }
     
-    //Catch Err
-    private boolean Catch_Err(){
-        if(err.Valid_Field(txtID));
-        if(err.Valid_Name(txtName));
-        if(err.Valid_Email(txtLocalEmail));
+        private void Catch_Err(){
+            StringBuilder errorMessage = new StringBuilder();
             
-        
-        if(err_list.size() > 0){
-            return true;
+            //ID
+            try {
+                IValidation idValidation = ValidatorsFactory.make(ValidationType.ID_VALIDATOR);
+                idValidation.Validate(txtID.getText());
+            }catch(IllegalArgumentException e) {
+                errorMessage.append(e.getMessage() + '\n');
+            }
+            
+            //Name
+            try {
+                IValidation nameValidation = ValidatorsFactory.make(ValidationType.NAME_VALIDATOR);
+                nameValidation.Validate(txtName.getText());
+            }catch(IllegalArgumentException e) {
+                errorMessage.append(e.getMessage() + '\n');
+            }
+
+            //Email
+            try {
+                IValidation emailValidation = ValidatorsFactory.make(ValidationType.EMAIL_VALIDATOR);
+                emailValidation.Validate(txtLocalEmail.getText());
+            }catch(IllegalArgumentException e) {
+                errorMessage.append(e.getMessage() + '\n');
+            }
+
+            
+            if (errorMessage.length() != 0) {
+                throw new IllegalArgumentException(errorMessage.toString());
+            }
+
         }
-        return false;
-    }
     
     //PrintList
     private void PrintList(){

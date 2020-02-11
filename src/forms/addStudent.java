@@ -12,7 +12,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-
+import validators.IValidation;
+import validators.ValidationType;
+import validators.ValidatorsFactory;
 /**
  *
  * @author roman
@@ -347,36 +349,40 @@ public class addStudent extends javax.swing.JFrame {
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
 
-           if(Catch_Err()){
-               err.Print_Errors();
-           }else{
-                //Setter
-                user = new User.UserBuilder()
-                        .name(txtName.getText())
-                        .phone(txtPhone.getText())
-                        .city(txtCity.getText())
-                        .clas(txtClass.getText())
-                        .email(txtLocalEmail.getText())
-                        .build();
+         try{
+            Catch_Err();
+            
+            //Setter
+            user = new User.UserBuilder()
+                    .name(txtName.getText())
+                    .phone(txtPhone.getText())
+                    .city(txtCity.getText())
+                    .clas(txtClass.getText())
+                    .email(txtLocalEmail.getText())
+                    .build();
 
-                qry = new Query(user);
-                qry.setDb_name("student");
-                
-                if(!err.Exist_Email(txtLocalEmail,qry.getDb_name())){
-                    //execute_insert
-                    err.Print_Errors();
+            qry = new Query(user);
+            qry.setDb_name("student");
+
+            if(!err.Exist_Email(txtLocalEmail,qry.getDb_name())){
+                err.Print_Errors();
+            }else{
+               if(qry.Insert_Student()){
+                    JOptionPane.showMessageDialog(null, "All Fields required");
                 }else{
-                   if(qry.Insert_Student()){
-                        JOptionPane.showMessageDialog(null, "All Fields required");
-                    }else{
-                        qry.update_query(qry.GetSQL_Statement());
-                        JOptionPane.showMessageDialog(null, "User was added");
+                    qry.update_query(qry.GetSQL_Statement());
+                    JOptionPane.showMessageDialog(null, "User was added");
 
-                    } 
-                }
-                //Clear fields
-                Clear_Fields();
-           }
+                } 
+            }
+            //Clear fields
+            Clear_Fields();
+                
+         }catch(IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+                
+           
     }//GEN-LAST:event_btnSubmitActionPerformed
 
     private void menuItemAbout2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemAbout2ActionPerformed
@@ -385,17 +391,54 @@ public class addStudent extends javax.swing.JFrame {
     }//GEN-LAST:event_menuItemAbout2ActionPerformed
     
     
-    private boolean Catch_Err(){
-        if(err.Valid_Name(txtName));
-        if(err.Valid_Email(txtLocalEmail));
-        if(err.Valid_Class(txtClass));
-        if(err.Valid_Phone(txtPhone));
-        if(err.Valid_City(txtCity));
+        //Catch Err
+     private void Catch_Err(){
+        StringBuilder errorMessage = new StringBuilder();
         
-        if(err_list.size() > 0){
-            return true;
+        //Name
+        try {
+            IValidation nameValidation = ValidatorsFactory.make(ValidationType.NAME_VALIDATOR);
+            nameValidation.Validate(txtName.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
         }
-        return false;
+        
+        //Email
+        try {
+            IValidation emailValidation = ValidatorsFactory.make(ValidationType.EMAIL_VALIDATOR);
+            emailValidation.Validate(txtLocalEmail.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
+        }
+        
+        //Phone
+        try {
+           IValidation phoneValidation = ValidatorsFactory.make(ValidationType.PHONE_VALIDATOR);
+            phoneValidation.Validate(txtPhone.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
+        }
+        
+        //City
+        try {
+            IValidation cityValidation = ValidatorsFactory.make(ValidationType.CITY_VALIDATOR);
+            cityValidation.Validate(txtCity.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
+        }
+        
+        //Class
+        try {
+            IValidation classValidation= ValidatorsFactory.make(ValidationType.CLASS_VALIDATOR);
+            classValidation.Validate(txtClass.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
+        }
+        
+        if (errorMessage.length() != 0) {
+            throw new IllegalArgumentException(errorMessage.toString());
+        }
+        
     }
     
     private void Clear_Fields(){

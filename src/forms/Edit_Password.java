@@ -10,6 +10,9 @@ import javax.swing.JOptionPane;
 import utils.CurrentUser;
 import utils.Query;
 import utils.User;
+import validators.IValidation;
+import validators.ValidationType;
+import validators.ValidatorsFactory;
 
 /**
  *
@@ -160,17 +163,14 @@ public class Edit_Password extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeActionPerformed
-        System.out.println(CurrentUser.getInstance().getPassword());
-        System.out.println(txtCurrentPassword.getText());
-        
-        
-        if(Catch_Err()){
-            err.Print_Errors();
-        }else{
+   
+        try{ 
+            Catch_Err();
+
             if(err.EqualPasswords(CurrentUser.getInstance().getPassword(), txtCurrentPassword)){
                 //Execute qr
                 CurrentUser.getInstance().setPassword(txtNewPassword.getText());
-                
+
                 qr = new Query();
                 qr.setDb_name("admin");
                 qr.Update_Password();
@@ -180,27 +180,42 @@ public class Edit_Password extends javax.swing.JFrame {
             }else{
                 err.Print_Errors();
             }
+        }catch(IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        
-       
-        
-        
     }//GEN-LAST:event_btnChangeActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         dispose();
     }//GEN-LAST:event_btnExitActionPerformed
 
-    private boolean Catch_Err(){
-        if(err.Valid_Password(txtCurrentPassword));
-        if(err.Valid_Password(txtNewPassword));
-            
-        
-        if(err_list.size() > 0){
-            return true;
+
+    private void Catch_Err(){
+        StringBuilder errorMessage = new StringBuilder();
+
+        //Prev password
+        try {
+            IValidation currentPassword = ValidatorsFactory.make(ValidationType.PASSWORD_VALIDATOR);
+            currentPassword.Validate(txtCurrentPassword.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
         }
-        return false;
+        
+        //New Password
+        try {
+            IValidation newPassword = ValidatorsFactory.make(ValidationType.NEW_PASSWORD_VALIDATOR);
+            newPassword.Validate(txtNewPassword.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
+        }
+        
+        
+        
+        if (errorMessage.length() != 0) {
+            throw new IllegalArgumentException(errorMessage.toString());
+        }
     }
+    
     private void Clear_Fields(){
         //Clear fields
         txtCurrentPassword.setText("");

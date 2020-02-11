@@ -11,15 +11,15 @@ package utils;
  */
 public class  User {
     //All final attributes
-    private final int id; //only for queries
+    private final String id; //only for queries
     private final String name; // make required
     private final String email; // optional
-    private final int clas; // optional
+    private final String clas; // optional
     private final String phone; // optional
     private final String city; // optional
     private final String status;
     private final String password;
-    private final int credit;
+    private final String credit;
  
     private User(UserBuilder builder) {
         this.id = builder.id;
@@ -34,7 +34,7 @@ public class  User {
     }
     
     //All getter, and NO setter to provde immutability
-    public int getId(){
+    public String getId(){
         return id;
     }
     public String getName() {
@@ -43,7 +43,7 @@ public class  User {
     public String getEmail() {
         return email;
     }
-    public int getClas() {
+    public String getClas() {
         return clas;
     }
     public String getPhone() {
@@ -58,7 +58,7 @@ public class  User {
     public String getPassword(){
         return password;
     }
-    public int getCredit(){
+    public String getCredit(){
         return credit;
     }
  
@@ -74,26 +74,24 @@ public class  User {
     
     public static class UserBuilder 
     {
-        private int id;
-        private  String name;
-        private  String email;
-        private int clas;
+        private String id;
+        private String name;
+        private String email;
+        private String clas;
         private String phone;
         private String city;
         private String status;
         private String password;
-        private int credit;
+        private String credit;
+        private User user;
  
         public UserBuilder() {
         }
         
-        public UserBuilder id(int id){
-            this.id = id;
-            return this;
-        }
+        
         //Override parsed
         public UserBuilder id(String id){
-            this.id = Integer.parseInt(id);
+            this.id = id;
             return this;
         }
         
@@ -108,16 +106,12 @@ public class  User {
             this.email = email;
             return this;
         }
-        public UserBuilder clas(int clas) {
+        public UserBuilder clas(String clas) {
             this.clas = clas;
             return this;
         }
         
-//      Overrider parsed
-        public UserBuilder clas(String clas) {
-            this.clas = Integer.parseInt(clas);
-            return this;
-        }
+
         
         public UserBuilder phone(String phone) {
             this.phone = phone;
@@ -139,25 +133,17 @@ public class  User {
             this.status = status;
             return this;
         }
-        public UserBuilder credit(int credit){
+        public UserBuilder credit(String credit){
             this.credit = credit;
             return this;
         }
-        public UserBuilder credit(String credit){
-            this.credit = Integer.parseInt(credit);
-            return this;
-        }
+        
         
         
         //Return the finally consrcuted User object
         public User build() {
             User user =  new User(this);
-            validateUserObject(user);
             return user;
-        }
-        private void validateUserObject(User user) {
-            //Do some basic validations to check 
-            //if user object does not break any assumption of system
         }
     }
 }

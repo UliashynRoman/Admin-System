@@ -15,6 +15,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import validators.IValidation;
+import validators.ValidationType;
+import validators.ValidatorsFactory;
 
 
   
@@ -242,28 +245,52 @@ public class Login extends javax.swing.JFrame {
         user = new User.UserBuilder()
         .email(txtEmail.getText())
         .password(txtPassword.getText()).build();
-
+        System.out.println(user.getEmail());
+        System.out.println(user.getPassword());
         qr = new Query(user);
-
-        if(qr.SQL_Login()){
+        
+        
+        try{
+            Catch_Err();
+            
+            if(qr.SQL_Login()){
             setVisible(false);
             Home home_window = new Home();
             home_window.setVisible(true);
-        }else{
-            JOptionPane.showMessageDialog(null,"Password or Email incorrect");
+            }else{
+                throw new IllegalArgumentException("Password or Email incorrect\n");
+            }
+            
+        }catch(IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
+        
+        
 
     }//GEN-LAST:event_btnLogInActionPerformed
     
-    private boolean Catch_Err(){
-        if(err.Valid_Password(txtPassword));
-        if(err.Valid_Email(txtEmail));
-            
-        
-        if(err_list.size() > 0){
-            return true;
+    private void Catch_Err(){
+        StringBuilder errorMessage = new StringBuilder();
+
+        //Email
+        try {
+            IValidation emailValidator = ValidatorsFactory.make(ValidationType.EMAIL_VALIDATOR);
+            emailValidator.Validate(txtEmail.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
         }
-        return false;
+        
+        //Password
+        try {
+            IValidation pwdValidator = ValidatorsFactory.make(ValidationType.PASSWORD_VALIDATOR);
+            pwdValidator.Validate(txtPassword.getText());
+        }catch(IllegalArgumentException e) {
+            errorMessage.append(e.getMessage() + '\n');
+        }
+        
+        if (errorMessage.length() != 0) {
+            throw new IllegalArgumentException(errorMessage.toString());
+        }
     }
     /**
      * @param args the command line arguments

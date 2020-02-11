@@ -12,6 +12,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import validators.IValidation;
+import validators.ValidationType;
+import validators.ValidatorsFactory;
 
 /**
  *
@@ -316,10 +319,9 @@ public class addAdmin extends javax.swing.JFrame {
 
     private void btnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubmitActionPerformed
 
-        if(Catch_Err()){
-            err.Print_Errors();
-        }else{
-
+        try{
+           Catch_Err();
+            
             //Setter
             user = new User.UserBuilder()
             .name(txtName.getText())
@@ -344,8 +346,10 @@ public class addAdmin extends javax.swing.JFrame {
             }
 
             Clear_Fields();
+        }catch(IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
-
+            
     }//GEN-LAST:event_btnSubmitActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -359,17 +363,38 @@ public class addAdmin extends javax.swing.JFrame {
         about_form.setVisible(true);
     }//GEN-LAST:event_menuItemAboutActionPerformed
     
-    private boolean Catch_Err(){
-        if(err.Valid_Password(txtPassword));
-        if(err.Valid_Name(txtName));
-        if(err.Valid_Email(txtLocalEmail));
-            
-        
-        if(err_list.size() > 0){
-            return true;
+    private void Catch_Err(){
+            StringBuilder errorMessage = new StringBuilder();
+
+            //Name
+            try {
+                IValidation nameValidation = ValidatorsFactory.make(ValidationType.NAME_VALIDATOR);
+                nameValidation.Validate(txtName.getText());
+            }catch(IllegalArgumentException e) {
+                errorMessage.append(e.getMessage() + '\n');
+            }
+
+            //Email
+            try {
+                IValidation emailValidation = ValidatorsFactory.make(ValidationType.EMAIL_VALIDATOR);
+                emailValidation.Validate(txtLocalEmail.getText());
+            }catch(IllegalArgumentException e) {
+                errorMessage.append(e.getMessage() + '\n');
+            }
+
+            //Password
+            try {
+                IValidation pwdValidator = ValidatorsFactory.make(ValidationType.PASSWORD_VALIDATOR);
+                pwdValidator.Validate(txtPassword.getText());
+            }catch(IllegalArgumentException e) {
+                errorMessage.append(e.getMessage() + '\n');
+            }
+
+            if (errorMessage.length() != 0) {
+                throw new IllegalArgumentException(errorMessage.toString());
+            }
+
         }
-        return false;
-    }
     
     private void Clear_Fields(){
         //Clear fields

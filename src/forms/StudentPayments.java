@@ -5,43 +5,37 @@
  */
 package forms;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import utils.Query;
+import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
+import utils.Query;
 import utils.User;
-
 
 /**
  *
  * @author roman
  */
-public class Logs extends javax.swing.JFrame {
+public class StudentPayments extends javax.swing.JFrame {
     Query qr = new Query(this); 
     private ArrayList<String> err_list = new ArrayList<String>();
-    private Error_Handling err = new Error_Handling(err_list);
     private DefaultComboBoxModel dm = new DefaultComboBoxModel();
     public User user;
-
     /**
-     * Creates new form Logs
+     * Creates new form StudentPayments
      */
-    public Logs() {
+    public StudentPayments() {
         initComponents();
         
-        qr.setDb_name("month_payment");
-        qr.Select_All_FromDB();
+        
+        qr.setDb_name("student");
+        //Wartosci do combobox
+        PrintList();
         
         qr.setDb_name("payment_logs");
-        qr.Select_All_FromDB();
         
     }
 
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,13 +45,10 @@ public class Logs extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        lbPayment = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbPayment = new javax.swing.JTable();
-        lbPayment = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tbMonth = new javax.swing.JTable();
-        lbMonth = new javax.swing.JLabel();
+        filterBox = new javax.swing.JComboBox<String>();
         btnBack = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -68,9 +59,12 @@ public class Logs extends javax.swing.JFrame {
         menuItemAbout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        lbPayment.setFont(new java.awt.Font("Sitka Banner", 0, 30)); // NOI18N
+        lbPayment.setForeground(new java.awt.Color(51, 50, 56));
+        lbPayment.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lbPayment.setText("Student Payment Filter");
+        lbPayment.setToolTipText("");
 
         tbPayment.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -85,30 +79,11 @@ public class Logs extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tbPayment);
 
-        lbPayment.setFont(new java.awt.Font("Sitka Banner", 0, 30)); // NOI18N
-        lbPayment.setForeground(new java.awt.Color(51, 50, 56));
-        lbPayment.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbPayment.setText("Payment`s Logs");
-        lbPayment.setToolTipText("");
-
-        tbMonth.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2"
+        filterBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filterBoxActionPerformed(evt);
             }
-        ));
-        jScrollPane3.setViewportView(tbMonth);
-
-        lbMonth.setFont(new java.awt.Font("Sitka Banner", 0, 30)); // NOI18N
-        lbMonth.setForeground(new java.awt.Color(51, 50, 56));
-        lbMonth.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbMonth.setText("Month crediting");
-        lbMonth.setToolTipText("");
+        });
 
         btnBack.setBackground(new java.awt.Color(51, 50, 56));
         btnBack.setFont(new java.awt.Font("Sitka Text", 0, 13)); // NOI18N
@@ -119,40 +94,6 @@ public class Logs extends javax.swing.JFrame {
                 btnBackActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 573, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(lbMonth, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-        );
 
         jMenu1.setText("File");
 
@@ -202,16 +143,37 @@ public class Logs extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(481, Short.MAX_VALUE)
+                .addComponent(filterBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnBack)
+                .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lbPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 578, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBack)
+                    .addComponent(filterBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(272, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(lbPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -232,17 +194,43 @@ public class Logs extends javax.swing.JFrame {
         about_form.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        setVisible(false);
-        showAdmins admins_list_form = new showAdmins();
-        admins_list_form.setVisible(true);
-    }//GEN-LAST:event_btnBackActionPerformed
-
     private void menuItemAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemAboutActionPerformed
         About about_form = new About();
         about_form.setVisible(true);
     }//GEN-LAST:event_menuItemAboutActionPerformed
 
+    private void filterBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterBoxActionPerformed
+        
+        int x = 0;
+        String item = (String) filterBox.getSelectedItem();
+        if(!filterBox.getSelectedItem().equals("*")){
+            user = new User.UserBuilder().id(item.substring(0,2)).build();
+            qr.SQL_JOIN(user);
+        }else{
+          String clear = "";
+          DefaultTableModel dm = (DefaultTableModel)tbPayment.getModel();
+            while(dm.getRowCount() > 0)
+            {
+                dm.removeRow(0);
+            }
+        }
+    }//GEN-LAST:event_filterBoxActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+        Home home_form = new Home();
+        home_form.setVisible(true);
+    }//GEN-LAST:event_btnBackActionPerformed
+    private void PrintList(){
+            dm.removeAllElements();
+            dm.addElement("*");
+
+            for(int i =0; i < qr.Select_All_ID().size();++i){
+                dm.addElement(qr.Select_All_ID().get(i));
+            }
+            filterBox.setModel(dm);
+        }
     /**
      * @param args the command line arguments
      */
@@ -260,39 +248,36 @@ public class Logs extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Logs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentPayments.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Logs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentPayments.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Logs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentPayments.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Logs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StudentPayments.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Logs().setVisible(true);
+                new StudentPayments().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JComboBox<String> filterBox;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JLabel lbMonth;
     private javax.swing.JLabel lbPayment;
     private javax.swing.JMenuItem menuItemAbout;
-    public javax.swing.JTable tbMonth;
     public javax.swing.JTable tbPayment;
     // End of variables declaration//GEN-END:variables
 }
