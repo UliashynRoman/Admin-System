@@ -149,7 +149,7 @@ public class Query {
                                 
                         if(rs.next()){
                             user = new User.UserBuilder()
-                                    .id(id)
+                                    .id(Integer.toString(rs.getInt("id")))
                                     .name(rs.getString("name"))
                                     .email(rs.getString("email"))
                                     .city(rs.getString("city"))
@@ -314,13 +314,12 @@ public class Query {
     
     public boolean SetSQL_Update(Next_Statement nxt){
         
+        
         if(!Prev_Next(user.getId(),nxt.getId())){
                 return false;
             }
-
         if(GetById(nxt.getId())){
            this.SQL_Statement = "UPDATE "+getDb_name()+" SET id = '"+user.getId()+"'";
-        
             
 
             if(!Prev_Next(user.getName(),nxt.getName())){
@@ -370,7 +369,6 @@ public class Query {
     
     
     public void Update_Credit(){
-        System.out.println(getDb_name());
 
         Payment payment = Payment.getInstance();
         this.SQL_Statement = "UPDATE "+getDb_name()+" SET credit = credit + "+Integer.toString(payment.getAmount())+" WHERE id = '"+user.getId()+"'";
@@ -409,10 +407,10 @@ public class Query {
         return list;
     }
     
-    public void SQL_JOIN(User user){
+    public void SQL_STUDENT_LOGS(User user){
         try{
             stmt = conn.createStatement();
-            System.out.println(user.getId());
+            //expretion,poczatek , dlugosc pobrania 
             this.SQL_Statement = "SELECT transfer_info,date FROM "+getDb_name()+" WHERE SUBSTRING(transfer_info, LENGTH(transfer_info)-1,2) = '"+user.getId()+"'";
             
             rs = stmt.executeQuery(SQL_Statement);
@@ -424,35 +422,9 @@ public class Query {
         }catch(Exception e){
                 System.out.println(e);
         }
-        System.out.println(user);
     }
     
-    
-    public ArrayList<String> Select_All_ADMIN_ID(){
-        
-        ArrayList<String> list = new ArrayList<>();
-       
-        this.SQL_Statement =  "SELECT id,name FROM admin";
-        executeQueryAdmin(list);
-       
-        System.out.println(list);
-        return list;
-    }
-    
-    
-    private void executeQueryAdmin(ArrayList<String> list){
-        try{
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(SQL_Statement);
-            while(rs.next()){
-                list.add(rs.getString("name"));
-            }
-
-        }catch(Exception e){
-            System.out.println(e);
-        }
-    }
-    
+   
     
     private void executeQuery(ArrayList<String> list){
         try{
@@ -460,10 +432,6 @@ public class Query {
             rs = stmt.executeQuery(SQL_Statement);
             while(rs.next()){
                 list.add(rs.getString("id")+" - "+ rs.getString("name"));
-                user = new User.UserBuilder()
-                                .id(rs.getString("id"))
-                                .name(rs.getString("name"))
-                                .build();
             }
 
         }catch(Exception e){

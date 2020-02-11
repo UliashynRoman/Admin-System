@@ -494,14 +494,7 @@ public class Student_Operations extends javax.swing.JFrame {
         }catch(IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        
-        SetList();
-    
-
-        
-        
-        
-
+//        SetList();
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
@@ -522,16 +515,20 @@ public class Student_Operations extends javax.swing.JFrame {
             nxt.setClas(txtClass.getText());
             nxt.setEmail(txtLocalEmail.getText());
             nxt.setCity(txtCity.getText());
+            if (qry.GetById(txtID.getText())) {
+                //execute_insert
+                if (qry.SetSQL_Update(nxt)) {
+                    qry.update_query(qry.GetSQL_Statement());
+                    Clear_Fields();
+                    JOptionPane.showMessageDialog(null, "Data sucessfully updated");
 
-            //execute_insert
-            if (qry.SetSQL_Update(nxt)) {
-                qry.update_query(qry.GetSQL_Statement());
+                } else {
+                    txtID.setText(qry.user.getId());
+                    JOptionPane.showMessageDialog(null, "You can`t change the ID");
+                }
+            }else {
                 Clear_Fields();
-                JOptionPane.showMessageDialog(null, "Data sucessfully updated");
-
-            } else {
-                txtID.setText(qry.user.getId());
-                JOptionPane.showMessageDialog(null, "You can`t change the ID");
+                JOptionPane.showMessageDialog(null, "User with entered ID is not exist");
             }
         }catch(IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -546,11 +543,14 @@ public class Student_Operations extends javax.swing.JFrame {
         try {
             IValidation idValidator = ValidatorsFactory.make(ValidationType.ID_VALIDATOR);
             idValidator.Validate(txtID.getText());
-            
-            Clear_Fields();
-            JOptionPane.showMessageDialog(null, "User with ID:"+qry.user.getId()+" deleted");
-            qry.update_query(qry.SQL_Delete_Student());
-            
+            if (qry.GetById(txtID.getText())) {
+                Clear_Fields();
+                JOptionPane.showMessageDialog(null, "User with ID:"+qry.user.getId()+" deleted");
+                qry.update_query(qry.SQL_Delete_Student());
+            }else {
+                Clear_Fields();
+                JOptionPane.showMessageDialog(null, "User with entered ID is not exist");
+            }
         }catch(IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -650,7 +650,6 @@ public class Student_Operations extends javax.swing.JFrame {
         dm.removeAllElements();
         for(int i =0; i < qry.Select_All_ID().size();++i){
             dm.addElement(qry.Select_All_ID().get(i));
-//              System.out.println(dm.get(i));
         }
         idList.setModel(dm);
     }

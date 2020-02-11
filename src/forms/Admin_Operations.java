@@ -497,15 +497,20 @@ public class Admin_Operations extends javax.swing.JFrame {
             if(!err.Check_Permission(nxt.getStatus().toLowerCase())){
                 err.Print_Errors();
             }else{
-                if (qry.SetSQL_Update(nxt)) {
+                if (qry.GetById(txtID.getText())) {
+                    if (qry.SetSQL_Update(nxt)) {
                     qry.update_query(qry.GetSQL_Statement());
                     Clear_Fields();
                     JOptionPane.showMessageDialog(null, "Data sucessfully updated");
-
-                } else {
-                    txtID.setText(qry.user.getId());
-                    JOptionPane.showMessageDialog(null, "You can`t change the ID");
+                    } else {
+                        txtID.setText(qry.user.getId());
+                        JOptionPane.showMessageDialog(null, "You can`t change the ID");
+                    }
+                }else {
+                    Clear_Fields();
+                    JOptionPane.showMessageDialog(null, "User with entered ID is not exist");
                 }
+                
             }
             PrintList();
             
@@ -526,9 +531,15 @@ public class Admin_Operations extends javax.swing.JFrame {
             if(!err.isMainHere()){
                 err.Print_Errors();
             }else{
-                Clear_Fields();
-                JOptionPane.showMessageDialog(null, "User with ID:"+qry.user.getId()+" deleted");
-                qry.update_query(qry.SQL_Delete_Student());
+                 if (qry.GetById(txtID.getText())) {
+                     Clear_Fields();
+                    JOptionPane.showMessageDialog(null, "User with ID:"+qry.user.getId()+" deleted");
+                    qry.update_query(qry.SQL_Delete_Student());
+                 }else{
+                    Clear_Fields();
+                    JOptionPane.showMessageDialog(null, "User with entered ID is not exist");
+                 }
+                
             }
         }catch(IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());

@@ -17,8 +17,8 @@ import utils.User;
  * @author roman
  */
 public class StudentPayments extends javax.swing.JFrame {
+    
     Query qr = new Query(this); 
-    private ArrayList<String> err_list = new ArrayList<String>();
     private DefaultComboBoxModel dm = new DefaultComboBoxModel();
     public User user;
     /**
@@ -205,9 +205,8 @@ public class StudentPayments extends javax.swing.JFrame {
         String item = (String) filterBox.getSelectedItem();
         if(!filterBox.getSelectedItem().equals("*")){
             user = new User.UserBuilder().id(item.substring(0,2)).build();
-            qr.SQL_JOIN(user);
+            qr.SQL_STUDENT_LOGS(user);
         }else{
-          String clear = "";
           DefaultTableModel dm = (DefaultTableModel)tbPayment.getModel();
             while(dm.getRowCount() > 0)
             {
